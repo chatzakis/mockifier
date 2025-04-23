@@ -1,0 +1,53 @@
+<table id="itemSubdivisions" style="width: 50%">
+    <thead style="text-align: left;">
+        <th>Ιδιότητα</th>
+        <th>Αποδεκτές τιμές</th>
+    </thead>
+    @for (item of itemNum; track i; let  i = $index) {
+        @if (!isPreviousRowEmpty(i)) {
+            <tr [id]="'row_' + i">
+                <td>
+                    <input 
+                        [id]="'attr_' + i"
+                        [(ngModel)]="items[i].attrName"/>
+                </td>
+                <td>
+                    <input 
+                        [id]="'value_' + i"
+                        [(ngModel)]="items[i].valueStr"/>
+                </td>
+            </tr>
+        }
+    }
+</table>
+<br>
+<label for="jsonFile">Upload Json</label>&nbsp;
+<input type="file" id="jsonFile" accept=".json" (change)="onFileSelected($event)"/>
+
+<br>
+<br>
+
+<label for="enableID">Add ID (auto increment)</label>&nbsp;
+<input type="checkbox" id="enableID" [(ngModel)]="enableID"/>
+
+<br>
+<br>
+
+<label for="outputCount">Output Counter</label>&nbsp;
+<input 
+    type="number"
+    id="outputCounter"
+    [(ngModel)]="outputCount"/>
+<br>
+<br>
+
+<label for="outputName">Output Name</label>&nbsp;
+<input 
+    type="text"
+    id="outputName"
+    [(ngModel)]="filename"/>
+<br>
+<br>
+
+<button (click)="onSubmit()">Submit</button>
+<button (click)="clear()">Clear</button>
