@@ -1,0 +1,10 @@
+1. Να δέχεται και άλλες μορφές αρχείων
+- CSV, Excel
+- Να βγει το file input σε ξεχωριστό component
+
+2. Να μπει Tailwind CSS και να γίνει μορφοποίηση
+- Daisy UI?
+
+3. Export to SQL queries
+
+4. Να γίνει preview component και να γίνεται μετά Download

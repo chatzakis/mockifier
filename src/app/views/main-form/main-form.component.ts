@@ -18,6 +18,7 @@ export class MainFormComponent {
   itemNum = Array(20);
   outputCount = 10;
   filename = 'mockified';
+  tableName = 'Pinakas'
   enableID = true;
 
   items: Item[] =
@@ -71,6 +72,15 @@ export class MainFormComponent {
     URL.revokeObjectURL(url);
   }
 
+  onExportSQL(){
+    var filteredItems = this.items.filter(item => !Object.values(item).every(value => value === ''));
+    this.seperateValues(filteredItems);
+    const result = generateRandomObjects(filteredItems, this.outputCount, this.enableID);
+
+    console.log(generateInsertQueries(result, this.tableName,));
+    
+  }
+
   //#region File Listener
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -121,4 +131,16 @@ function generateRandomObjects(attrArray: Item[], count: number, enableID: boole
 
 function getRandomValue(arr: string[]) {
   return arr[Math.floor(Math.random() * arr.length)];
+}
+
+//#region SQL
+function generateInsertQueries(data:any, tableName:string, fields = null) {
+  if (!data.length) return [];
+
+  const keys = fields || Object.keys(data[0]);
+
+  return data.map((row:any) => {
+    const values = keys.map(key => `'${String(row[key]).replace(/'/g, "''")}'`).join(", ");
+    return `INSERT INTO ${tableName} (${keys.join(", ")}) VALUES (${values});`;
+  });
 }
