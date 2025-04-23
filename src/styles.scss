@@ -1,1 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+@plugin "daisyui";
+
+.section-padding{
+    width: 1200px;
+    margin: 80px auto;
+}

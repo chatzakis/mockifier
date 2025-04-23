@@ -1,54 +1,102 @@
-<table id="itemSubdivisions" style="width: 50%">
-    <thead style="text-align: left;">
-        <th>Ιδιότητα</th>
-        <th>Αποδεκτές τιμές</th>
-    </thead>
-    @for (item of itemNum; track i; let  i = $index) {
-        @if (!isPreviousRowEmpty(i)) {
-            <tr [id]="'row_' + i">
-                <td>
-                    <input 
-                        [id]="'attr_' + i"
-                        [(ngModel)]="items[i].attrName"/>
-                </td>
-                <td>
-                    <input 
-                        [id]="'value_' + i"
-                        [(ngModel)]="items[i].valueStr"/>
-                </td>
-            </tr>
-        }
+<section class="section-padding">
+    <h2 class="text-center text-lg mb-2">Parameters</h2>
+
+    <table id="itemSubdivisions" class="table">
+        <thead style="text-align: left;">
+            <th class="pl-0 w-1/4">Attribute</th>
+            <th class="pl-0 w-3/4">Accepted values</th>
+        </thead>
+        <tbody>
+            @for (item of itemNum; track i; let  i = $index) {
+                @if (!isPreviousRowEmpty(i)) {
+                    <tr [id]="'row_' + i" class="py-1">
+                        <td class="px-0">
+                            <input 
+                                [id]="'attr_' + i"
+                                class="input w-[286px] font-bold" 
+                                [(ngModel)]="items[i].attrName"/>
+                        </td>
+                        <td class="p-0">
+                            <input 
+                                [id]="'value_' + i"
+                                class="input w-[900px]"
+                                [(ngModel)]="items[i].valueStr"/>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <h3 class="text-center my-2">Import from File</h3>
+    <div class="flex justify-center mt-3">
+        <app-file-input (fileData)="onFileUpload($event)"/>
+    </div>
+</section>
+
+<section class="section-padding">
+    <h2 class="text-center text-lg mb-4">Options</h2>
+
+    <div class="grid grid-cols-2 gap-4">
+        <label class="input w-[100%]">
+            <span class="label">Output Counter</span>
+            <input 
+                type="number" 
+                class="text-lg" 
+                id="outputCounter"
+                [(ngModel)]="outputCount"/>
+        </label>    
+
+        <label class="input w-[100%]">
+            <span class="label">Output Name</span>
+            <input 
+            type="text"
+            class="text-lg" 
+            id="outputName"
+            [(ngModel)]="filename"/>
+        </label>  
+
+        <label class="input w-[100%]">
+            <span class="label">SQL Table Name</span>
+            <input 
+                type="text"
+                class="text-lg"
+                id="tableName"
+                [(ngModel)]="tableName"/>
+        </label>  
+
+        <div class="flex items-center">
+            <label for="enableID">Add ID (auto increment)</label>&nbsp;
+            <input type="checkbox"  class="checkbox" id="enableID" [(ngModel)]="enableID"/>
+        </div>
+    </div>
+
+    
+    <div class="text-center mt-6">
+        <button class="btn btn-primary mr-1" (click)="onSubmit()">
+            <span class="material-icons">visibility</span>
+            Preview
+        </button>
+        <button class="btn btn-soft mr-1" (click)="onExportJSON()" [disabled]="output.length < 1">
+            <span class="material-icons">data_object</span>
+            Export JSON
+        </button>
+        <button class="btn btn-soft mr-1" (click)="onExportSQL()" [disabled]="output.length < 1">
+            <span class="material-icons">storage</span>
+            Export SQL
+        </button>
+        <button class="btn btn-soft btn-error" (click)="clear()">
+            <span class="material-icons">delete</span>
+            Clear
+        </button>
+    </div>
+</section>
+
+<section class="section-padding">
+    @if(output.length > 0){
+        <app-previer [mockData]="output"/>
     }
-</table>
-<br>
-<label for="jsonFile">Upload Json</label>&nbsp;
-<input type="file" id="jsonFile" accept=".json" (change)="onFileSelected($event)"/>
+</section>
 
-<br>
-<br>
 
-<label for="enableID">Add ID (auto increment)</label>&nbsp;
-<input type="checkbox" id="enableID" [(ngModel)]="enableID"/>
 
-<br>
-<br>
-
-<label for="outputCount">Output Counter</label>&nbsp;
-<input 
-    type="number"
-    id="outputCounter"
-    [(ngModel)]="outputCount"/>
-<br>
-<br>
-
-<label for="outputName">Output Name</label>&nbsp;
-<input 
-    type="text"
-    id="outputName"
-    [(ngModel)]="filename"/>
-<br>
-<br>
-
-<button (click)="onSubmit()">Submit</button>
-<button (click)="onExportSQL()">Export SQL</button>
-<button (click)="clear()">Clear</button>
