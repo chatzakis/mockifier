@@ -33,6 +33,28 @@ function createSQLQueries(data:any, tableName:string, fields = null){
 }
 //#endregion
 
+//#region File Export
+export function exportParameters(parameters:AttributeItem[], fileName:string){
+    var filteredParams = parameters.filter(item => !Object.values(item).every(value => value === ''));
+
+
+    const jsonStr = JSON.stringify(parametersToJSON(filteredParams), null, 2);
+    const blob = new Blob([jsonStr], { type: "application/json" });
+
+    downloadFile(blob, fileName + '.params.json')
+}
+
+function parametersToJSON(parameters: AttributeItem[]){
+    return parameters.map(({ attrName, valueStr }) => ({
+        attrName,
+        values: valueStr
+          .split(",")
+          .map(s => s.trim())
+          .filter(Boolean) // remove empty strings
+      }));
+}
+//#endregion
+
 function downloadFile(blob: Blob, fileName: string){
     const url = URL.createObjectURL(blob);
 

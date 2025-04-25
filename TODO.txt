@@ -1,4 +1,8 @@
 1. Να δέχεται και άλλες μορφές αρχείων
 - CSV, Excel
 
-2. Randomize σε κλίμακα
+2. Randomize probability functions
+
+3. Preview Loading
+
+4. Preview Handle Large Data

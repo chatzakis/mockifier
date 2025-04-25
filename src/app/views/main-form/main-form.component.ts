@@ -5,8 +5,8 @@ import { PrevierComponent } from "../previer/previer.component";
 import { FileInputComponent } from "../../shared/file-input/file-input.component";
 
 import { generateRandomObjects } from '../../utilities/randomizers';
-import { exportJson, exportSQL } from '../../utilities/file-export';
-import { AttributeItem } from '../../models/models';
+import { exportJson, exportParameters, exportSQL } from '../../utilities/file-export';
+import { AttributeItem, CreateSettings } from '../../models/models';
 
 @Component({
   selector: 'app-main-form',
@@ -18,10 +18,13 @@ export class MainFormComponent {
   // Constants
   maxItems = 20
   itemNum = Array(this.maxItems);
-  outputCount = 10;
   filename = 'mockified';
   tableName = 'myTable'
-  enableID = true;
+
+  loading = false;
+
+  createSettings: CreateSettings  = 
+  { outputCount: 10, enableID: true, descProbability: 'Flat'}
 
   output: any[] = [];
 
@@ -50,21 +53,29 @@ export class MainFormComponent {
     this.items = data.concat(this.items).slice(0,20);
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.formEmpty()) return;
 
-    this.output = generateRandomObjects(this.items.slice(0), this.outputCount, this.enableID);
-    console.log(this.output);
+    this.loading = true;
+    await new Promise<void>((resolve) => {
+      setTimeout(() => {
+        this.output = generateRandomObjects(this.items.slice(0), this.createSettings);
+        resolve();
+      });
+    });
+    this.loading = false;
   }
 
   formEmpty(): boolean{
     return this.items.filter(item => !Object.values(item).every(value => value === '')).length < 1;
   }
 
+  onExportParameters(){
+    exportParameters(this.items, this.filename);
+  }
+
   onExportSQL(){
     exportSQL(this.output, this.filename, this.tableName);
-    // const result = generateRandomObjects(this.items.slice(0), this.outputCount, this.enableID);
-    // console.log(generateInsertQueries(result, this.tableName,));
   }
 
   onExportJSON(){

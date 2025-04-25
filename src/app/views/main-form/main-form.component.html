@@ -3,8 +3,8 @@
 
     <table id="itemSubdivisions" class="table">
         <thead style="text-align: left;">
-            <th class="pl-0 w-1/4">Attribute</th>
-            <th class="pl-0 w-3/4">Accepted values</th>
+            <th class="pl-0 w-1/4">Attribute Name</th>
+            <th class="pl-0 w-3/4">Accepted values <em class="font-normal">- sepenated by commas (,)</em></th>
         </thead>
         <tbody>
             @for (item of itemNum; track i; let  i = $index) {
@@ -44,7 +44,7 @@
                 type="number" 
                 class="text-lg" 
                 id="outputCounter"
-                [(ngModel)]="outputCount"/>
+                [(ngModel)]="createSettings.outputCount"/>
         </label>    
 
         <label class="input w-[100%]">
@@ -65,17 +65,31 @@
                 [(ngModel)]="tableName"/>
         </label>  
 
+        <label class="select w-[100%]">
+            <span class="label">Probability Function</span>
+            <select class="select" [(ngModel)]="createSettings.descProbability">
+                <option [(ngModel)]="createSettings.descProbability" selected>Flat</option>
+                <option>Linear</option>
+              </select>
+        </label>
+
         <div class="flex items-center">
             <label for="enableID">Add ID (auto increment)</label>&nbsp;
-            <input type="checkbox"  class="checkbox" id="enableID" [(ngModel)]="enableID"/>
+            <input type="checkbox"  class="checkbox" id="enableID" [(ngModel)]="createSettings.enableID"/>
+
+
         </div>
     </div>
 
     
     <div class="text-center mt-6">
-        <button class="btn btn-primary mr-1" (click)="onSubmit()">
+        <button class="btn btn-primary mr-1" (click)="onSubmit()" [disabled]="formEmpty()">
             <span class="material-icons">visibility</span>
             Preview
+        </button>
+        <button class="btn btn-soft mr-1" (click)="onExportParameters()" [disabled]="formEmpty()">
+            <span class="material-icons">settings</span>
+            Export Parameters
         </button>
         <button class="btn btn-soft mr-1" (click)="onExportJSON()" [disabled]="output.length < 1">
             <span class="material-icons">data_object</span>
@@ -93,6 +107,11 @@
 </section>
 
 <section class="section-padding">
+    @if(loading){
+        <div class="text-center">
+            <span class="loading loading-ring loading-xl"></span>
+        </div>
+    }
     @if(output.length > 0){
         <app-previer [mockData]="output"/>
     }
