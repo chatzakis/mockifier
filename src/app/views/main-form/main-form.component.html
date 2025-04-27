@@ -1,10 +1,11 @@
 <section class="section-padding">
     <h2 class="text-center text-lg mb-2">Parameters</h2>
 
-    <table id="itemSubdivisions" class="table">
+    <table id="itemSubdivisions" class="table table-fixed w-full">
         <thead style="text-align: left;">
-            <th class="pl-0 w-1/4">Attribute Name</th>
-            <th class="pl-0 w-3/4">Accepted values <em class="font-normal">- sepenated by commas (,)</em></th>
+            <th class="pl-0 w-1/5">Attribute Name</th>
+            <th class="pl-0 w-3/5">Accepted values <em class="font-normal">- sepenated by commas (,)</em></th>
+            <th class="pl-0 w-1/5">Type</th>
         </thead>
         <tbody>
             @for (item of itemNum; track i; let  i = $index) {
@@ -13,14 +14,23 @@
                         <td class="px-0">
                             <input 
                                 [id]="'attr_' + i"
-                                class="input w-[286px] font-bold" 
+                                class="input w-[97%] font-bold" 
                                 [(ngModel)]="items[i].attrName"/>
                         </td>
                         <td class="p-0">
                             <input 
                                 [id]="'value_' + i"
-                                class="input w-[900px]"
+                                class="input w-[99%] "
                                 [(ngModel)]="items[i].valueStr"/>
+                        </td>
+                        <td class="p-0">
+                                <select class="select w-[100%]">
+                                    <option selected>Text</option>
+                                    <option>Boolean</option>
+                                    <option>Numeric</option>
+                                    <option>Integer Range</option>
+                                    <option>Float Range</option>
+                                  </select>
                         </td>
                     </tr>
                 }
@@ -68,7 +78,7 @@
         <label class="select w-[100%]">
             <span class="label">Probability Function</span>
             <select class="select" [(ngModel)]="createSettings.descProbability">
-                <option [(ngModel)]="createSettings.descProbability" selected>Flat</option>
+                <option selected>Flat</option>
                 <option>Linear</option>
               </select>
         </label>
@@ -113,7 +123,7 @@
         </div>
     }
     @if(output.length > 0){
-        <app-previer [mockData]="output"/>
+        <app-previewer [mockData]="output"/>
     }
 </section>
 

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { PrevierComponent } from "../previer/previer.component";
+import { PreviewerComponent } from "../previewer/previewer.component";
 import { FileInputComponent } from "../../shared/file-input/file-input.component";
 
 import { generateRandomObjects } from '../../utilities/randomizers';
@@ -10,7 +10,7 @@ import { AttributeItem, CreateSettings } from '../../models/models';
 
 @Component({
   selector: 'app-main-form',
-  imports: [FormsModule, FileInputComponent, PrevierComponent],
+  imports: [FormsModule, FileInputComponent, PreviewerComponent],
   templateUrl: './main-form.component.html',
   styleUrl: './main-form.component.scss'
 })

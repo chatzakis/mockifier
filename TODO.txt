@@ -6,3 +6,7 @@
 3. Preview Loading
 
 4. Preview Handle Large Data
+
+5. Data types
+
+6. Numeric Range

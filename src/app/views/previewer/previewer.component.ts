@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-previer',
+  selector: 'app-previewer',
   imports: [],
-  templateUrl: './previer.component.html',
-  styleUrl: './previer.component.scss'
+  templateUrl: './previewer.component.html',
+  styleUrl: './previewer.component.scss'
 })
-export class PrevierComponent {
+export class PreviewerComponent {
   @Input({required: true}) mockData:any[];
 
   objectKeys(obj: Record<string, any>): string[] {
