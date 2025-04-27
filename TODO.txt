@@ -10,3 +10,7 @@
 5. Data types
 
 6. Numeric Range
+
+7. Copy Preview Icon Button
+
+8. ReadMe
