@@ -35,8 +35,7 @@ function createSQLQueries(data:any, tableName:string, fields = null){
 
 //#region File Export
 export function exportParameters(parameters:AttributeItem[], fileName:string){
-    var filteredParams = parameters.filter(item => !Object.values(item).every(value => value === ''));
-
+    var filteredParams = parameters.filter(item => !Object.values(item).slice(0, 2).every(value => value === ''));
 
     const jsonStr = JSON.stringify(parametersToJSON(filteredParams), null, 2);
     const blob = new Blob([jsonStr], { type: "application/json" });
@@ -45,12 +44,13 @@ export function exportParameters(parameters:AttributeItem[], fileName:string){
 }
 
 function parametersToJSON(parameters: AttributeItem[]){
-    return parameters.map(({ attrName, valueStr }) => ({
+    return parameters.map(({ attrName, valueStr, type }) => ({
         attrName,
         values: valueStr
           .split(",")
           .map(s => s.trim())
-          .filter(Boolean) // remove empty strings
+          .filter(Boolean), // remove empty strings
+        type
       }));
 }
 //#endregion

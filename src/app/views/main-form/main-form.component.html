@@ -14,17 +14,20 @@
                         <td class="px-0">
                             <input 
                                 [id]="'attr_' + i"
-                                class="input w-[97%] font-bold" 
-                                [(ngModel)]="items[i].attrName"/>
+                                class="input validator w-[97%] font-bold" 
+                                [(ngModel)]="items[i].attrName"
+                                [required]="items[i].required ? true : false"/>
                         </td>
                         <td class="p-0">
                             <input 
                                 [id]="'value_' + i"
                                 class="input w-[99%] "
-                                [(ngModel)]="items[i].valueStr"/>
+                                [(ngModel)]="items[i].valueStr"
+                                [disabled]="items[i].disabled ? true : false"
+                                (blur)="onValueChange(i)"/>
                         </td>
                         <td class="p-0">
-                                <select class="select w-[100%]">
+                                <select class="select w-[100%]" [(ngModel)]="items[i].type" (change)="onSelectChange(i)">
                                     <option selected>Text</option>
                                     <option>Boolean</option>
                                     <option>Numeric</option>
@@ -93,11 +96,11 @@
 
     
     <div class="text-center mt-6">
-        <button class="btn btn-primary mr-1" (click)="onSubmit()" [disabled]="formEmpty()">
+        <button class="btn btn-primary mr-1" (click)="onSubmit()" [disabled]="formInvalid()">
             <span class="material-icons">visibility</span>
             Preview
         </button>
-        <button class="btn btn-soft mr-1" (click)="onExportParameters()" [disabled]="formEmpty()">
+        <button class="btn btn-soft mr-1" (click)="onExportParameters()" [disabled]="formInvalid()">
             <span class="material-icons">settings</span>
             Export Parameters
         </button>

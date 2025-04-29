@@ -1,0 +1,10 @@
+@if(show){
+    <div class="alert" [ngClass]="getAlertType()" role="alert">
+        <div class="content">
+            <i class="fa-solid" [ngClass]="getIcon()"></i>
+            {{text}}
+            <button (click)="onClose()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+    </div>
+}
+

@@ -47,7 +47,8 @@ function parseJson(reader: FileReader): AttributeItem[] {
 
     return parsed.map((entry: any) => ({
       attrName: entry.attrName || '',
-      valueStr: Array.isArray(entry.values) ? entry.values.join(', ') : ''
+      valueStr: Array.isArray(entry.values) ? entry.values.join(', ') : '',
+      type: entry?.type || 'Text' 
     }));
 
   } catch (err) {
