@@ -5,7 +5,7 @@
 
 3. Preview Loading
 
-4. Preview Handle Large Data
+4. Preview Handle Large Data -> Κόψε μετά τα 1000 και βάλε τελίτσες ...
 
 5. Data types
 
@@ -14,3 +14,7 @@
 7. Copy Preview Icon Button
 
 8. ReadMe
+
+9. Σε SQL export true -> True, false -> false
+
+10. Bug με κενό value
