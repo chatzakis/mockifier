@@ -7,6 +7,7 @@ import { FileInputComponent } from "../../shared/file-input/file-input.component
 import { generateRandomObjects } from '../../utilities/randomizers';
 import { exportJson, exportParameters, exportSQL } from '../../utilities/file-export';
 import { AttributeItem, CreateSettings } from '../../models/models';
+import { filterItems } from '../../utilities/filterItems';
 
 @Component({
   selector: 'app-main-form',
@@ -24,7 +25,7 @@ export class MainFormComponent {
   loading = false;
 
   createSettings: CreateSettings  = 
-  { outputCount: 10, enableID: true, descProbability: 'Flat'}
+  { outputCount: 10, enableID: true, probabilityFunc: 'Flat'}
 
   output: any[] = [];
 
@@ -56,12 +57,17 @@ export class MainFormComponent {
 
   onSelectChange(i:number){
     console.log(i);
-    if(this.items[i].type === 'Boolean'){
-      this.items[i].valueStr = 'true, false';
-      this.items[i].disabled = true;
-    }else{
-      this.items[i].valueStr = '';
-      this.items[i].disabled = false;
+    switch(this.items[i].type){
+      case 'Boolean':
+        this.items[i].valueStr = 'true, false';
+        this.items[i].disabled = true;
+        break;
+        case 'Bit':
+          this.items[i].valueStr = '1, 0';
+          this.items[i].disabled = true;
+          break;
+        default:
+          this.items[i].disabled = false;
     }
   }
 
@@ -76,7 +82,6 @@ export class MainFormComponent {
   //#region Submit
   async onSubmit() {
     if (this.formEmpty()) return;
-    console.log(this.items);
 
     this.loading = true;
     await new Promise<void>((resolve) => {
@@ -89,7 +94,7 @@ export class MainFormComponent {
   }
 
   formEmpty(): boolean{
-    return this.items.filter(item => !Object.values(item).slice(0, 2).every(value => value === '')).length < 1;
+    return filterItems(this.items).length < 1;
   }
 
   formInvalid(): boolean{

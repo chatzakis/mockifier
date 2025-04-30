@@ -1,30 +1,38 @@
-import { AttributeItem, CreateSettings } from "../models/models";
+import { AttributeItem, CreateSettings, isNumericType } from "../models/models";
+import { filterItems } from "./filterItems";
 
 export function generateRandomObjects(attrArray: AttributeItem[], settings: CreateSettings){
-      var filteredItems = attrArray.filter(item => !Object.values(item).every(value => value === ''));
+      var filteredItems = filterItems(attrArray);
+      console.log(filteredItems);
+      
       seperateValues(filteredItems);
 
-      const results: Record<string, string>[] = [];
+      const results: Record<string, any>[] = [];
 
       for (let i = 0; i < settings.outputCount; i++) {
-        const obj: Record<string, string> = {};
+        const obj: Record<string, any> = {};
 
-        attrArray.forEach((attr: AttributeItem) => {
+        if (settings.enableID)
+          obj["ID"] = (i + 1);
+
+        filteredItems.forEach((attr: AttributeItem) => {
           if (attr.values && attr.values.length > 0)
-            switch (settings.descProbability) {
+            switch (settings.probabilityFunc) {
               case 'Linear':
                 obj[attr.attrName] = getRandomValueWeightedDescending(attr.values);
                 break;
               default:
                 obj[attr.attrName] = getRandomValue(attr.values);
-            }
+          }
+
+          obj[attr.attrName] = typeFormat(attr, obj[attr.attrName])
         });
 
-        if (settings.enableID)
-          obj["ID"] = (i + 1).toString();
 
         results.push(obj);
     }
+    console.log(results);
+    
   return results
 }
 
@@ -38,6 +46,13 @@ function seperateValues(items: AttributeItem[]) {
   });
 }
 
+function typeFormat(attr: AttributeItem, value: any){
+  if (isNumericType(attr.type))
+      return +value;
+  return value;
+}
+
+//#region Random Functions
 function getRandomValue(arr: string[]) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
@@ -62,3 +77,4 @@ function getRandomValueWeightedDescending(arr: string[]): string {
 
   return arr[n - 1]; // fallback (should never hit)
 }
+//#endregion

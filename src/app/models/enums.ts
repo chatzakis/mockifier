@@ -1,1 +1,0 @@
-export type FileExtension = 'json' | 'csv' | 'xlsx' 

@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { AttributeItem } from '../../models/models';
-import { FileExtension } from '../../models/enums';
+import { AttributeItem, FileExtension } from '../../models/models';
 
 @Component({
   selector: 'app-file-input',

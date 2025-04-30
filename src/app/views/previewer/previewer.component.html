@@ -4,7 +4,7 @@
     @for (item of mockData; track item; let last = $last) {
         <code class="pl-3">&#123;</code><br>
         @for (key of objectKeys(item); track key; let last = $last) {
-            <code class="pl-8"><span class="attr">"{{ key }}"</span>:&nbsp;<span class="value">"{{ item[key] }}"{{ last ? '' : ',' }}</span></code><br>
+            <code class="pl-8"><span class="attr">"{{ key }}"</span>:&nbsp;<span class="value" [class.number]="isNum(item[key])">{{addQuote(item[key])}}{{ item[key] }}{{addQuote(item[key])}}{{ last ? '' : ',' }}</span></code><br>
         }
         <code class="pl-3">&#125;</code>{{ last ? '' : ',' }}<br>
     }

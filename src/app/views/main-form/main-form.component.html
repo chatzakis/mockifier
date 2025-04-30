@@ -28,11 +28,12 @@
                         </td>
                         <td class="p-0">
                                 <select class="select w-[100%]" [(ngModel)]="items[i].type" (change)="onSelectChange(i)">
-                                    <option selected>Text</option>
-                                    <option>Boolean</option>
-                                    <option>Numeric</option>
-                                    <option>Integer Range</option>
-                                    <option>Float Range</option>
+                                    <option value="Text" selected>Text</option>
+                                    <option value="Boolean">Boolean</option>
+                                    <option value="Bit">Bit</option>
+                                    <option value="Numeric">Numeric</option>
+                                    <option value="Integer Range">Integer Range</option>
+                                    <option value="Float Range">Float Range</option>
                                   </select>
                         </td>
                     </tr>
@@ -80,7 +81,7 @@
 
         <label class="select w-[100%]">
             <span class="label">Probability Function</span>
-            <select class="select" [(ngModel)]="createSettings.descProbability">
+            <select class="select" [(ngModel)]="createSettings.probabilityFunc">
                 <option selected>Flat</option>
                 <option>Linear</option>
               </select>

@@ -12,4 +12,16 @@ export class PreviewerComponent {
   objectKeys(obj: Record<string, any>): string[] {
     return Object.keys(obj);
   }
+
+  addQuote(value: any){
+    if(typeof value !== "number")
+      return '"';
+    return;
+  }
+
+  isNum(value: any){
+    if(typeof value == "number")
+      return true;
+    return false;
+  }
 }

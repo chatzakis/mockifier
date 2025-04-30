@@ -14,7 +14,3 @@
 7. Copy Preview Icon Button
 
 8. ReadMe
-
-9. Σε SQL export true -> True, false -> false
-
-10. Bug με κενό value

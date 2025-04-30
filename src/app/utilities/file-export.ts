@@ -1,4 +1,5 @@
 import { AttributeItem } from "../models/models";
+import { filterItems } from "./filterItems";
 
 //#region JSON
 export function exportJson(mockData: AttributeItem[], fileName: string) {
@@ -12,7 +13,6 @@ export function exportJson(mockData: AttributeItem[], fileName: string) {
 //#region SQL
 export function exportSQL(data:any, fileName: string, tableName:string) {
     const sqlStatements = createSQLQueries(data, tableName);
-    console.log(sqlStatements);
 
     const content = sqlStatements.join('\n');
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
@@ -27,7 +27,14 @@ function createSQLQueries(data:any, tableName:string, fields = null){
     const keys = fields || Object.keys(data[0]);
 
     return data.map((row:any) => {
-        const values = keys.map(key => `'${String(row[key]).replace(/'/g, "''")}'`).join(", ");
+        const values = keys.map(key => {
+            const val = row[key];
+            if (typeof val === 'number') {
+              return String(val);
+            } else {
+              return `'${String(val).replace(/'/g, "''")}'`;
+            }
+          }).join(", ");
         return `INSERT INTO ${tableName} (${keys.join(", ")}) VALUES (${values});`;
     });
 }
@@ -35,7 +42,7 @@ function createSQLQueries(data:any, tableName:string, fields = null){
 
 //#region File Export
 export function exportParameters(parameters:AttributeItem[], fileName:string){
-    var filteredParams = parameters.filter(item => !Object.values(item).slice(0, 2).every(value => value === ''));
+    var filteredParams = filterItems(parameters);
 
     const jsonStr = JSON.stringify(parametersToJSON(filteredParams), null, 2);
     const blob = new Blob([jsonStr], { type: "application/json" });
