@@ -1,4 +1,4 @@
-import { AttributeItem, CreateSettings, isNumericType } from "../models/models";
+import { AttributeItem, CreateSettings, isNumericType, isRangeType } from "../models/models";
 import { filterItems } from "./filterItems";
 
 export function generateRandomObjects(attrArray: AttributeItem[], settings: CreateSettings){
@@ -17,15 +17,18 @@ export function generateRandomObjects(attrArray: AttributeItem[], settings: Crea
 
         filteredItems.forEach((attr: AttributeItem) => {
           if (attr.values && attr.values.length > 0)
-            switch (settings.probabilityFunc) {
-              case 'Linear':
-                obj[attr.attrName] = getRandomValueWeightedDescending(attr.values);
-                break;
-              default:
-                obj[attr.attrName] = getRandomValue(attr.values);
+            if (isRangeType(attr.type))
+              obj[attr.attrName] = formatRange(attr);
+            else
+              switch (settings.probabilityFunc) {
+                case 'Linear':
+                  obj[attr.attrName] = getRandomValueWeightedDescending(attr.values);
+                  break;
+                default:
+                  obj[attr.attrName] = getRandomValue(attr.values);
           }
 
-          obj[attr.attrName] = typeFormat(attr, obj[attr.attrName])
+          obj[attr.attrName] = formatNumeric(attr, obj[attr.attrName])
         });
 
 
@@ -46,10 +49,34 @@ function seperateValues(items: AttributeItem[]) {
   });
 }
 
-function typeFormat(attr: AttributeItem, value: any){
+function formatNumeric(attr: AttributeItem, value: any){
   if (isNumericType(attr.type))
       return +value;
   return value;
+}
+
+function formatRange(attr: AttributeItem){
+  if (invalidRangeInput(attr))
+    return 'ERROR: Insert exactly 2 numeric values (min, max)'
+
+  const min = attr.values ? +attr.values[0] : 0;
+  const max = attr.values ? +attr.values[1] : 0;
+
+  switch(attr.type){
+    case 'Integer Range':
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    default:
+      return Math.random() * (max - min) + min;
+  }
+}
+
+function invalidRangeInput(attr: AttributeItem): boolean {
+  return (
+    !Array.isArray(attr.values) ||
+    attr.values.length !== 2 ||
+    typeof +attr.values[0] !== "number" ||
+    typeof +attr.values[1] !== "number"
+  );
 }
 
 //#region Random Functions

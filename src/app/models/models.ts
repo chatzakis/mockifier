@@ -5,7 +5,11 @@ export type NumericType = 'Bit' | 'Numeric' | 'Integer Range' | 'Float Range';
 //#endregion
 
 export function isNumericType(value: string): value is NumericType {
-    return ['Bit', 'Numeric', 'Integer Range', 'Float Range'].includes(value);
+    return ['Bit', 'Numeric'].includes(value);
+}
+
+export function isRangeType(value: string): value is NumericType {
+    return ['Integer Range', 'Float Range'].includes(value);
 }
 
 export interface AttributeItem{
