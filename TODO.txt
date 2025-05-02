@@ -9,7 +9,7 @@
 
 5. Data types
 
-6. Numeric Range
+6. DATE Range
 
 7. Copy Preview Icon Button
 
