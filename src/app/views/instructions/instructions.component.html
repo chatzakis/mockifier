@@ -1,0 +1,99 @@
+<section class="section-padding">
+    <h2>Instructions</h2>
+
+    <h3>Getting Started</h3>
+    <div class="alert alert-info flex flex-col mb-4 text-base">
+        <p><strong>You can create mock data in two ways:</strong></p>
+        <ol class="list-decimal mt-2 ml-4">
+            <li><strong>Manual Creation:</strong> Add and configure attributes directly in the application</li>
+            <li><strong>Import File:</strong> Load a pre-configured attribute set from a file</li>
+        </ol>
+    </div>
+
+    <h3>Creating Attributes</h3>
+    <ol class="list-decimal mb-4 ml-4">
+        <li>Enter the attribute name</li>
+        <li>Select the appropriate data type</li>
+        <li>Add possible values or configure ranges</li>
+        <li>Repeat for all needed attributes</li>
+        <li>Click "Preview" to generate MockData</li>
+        <li>Export generated data in the format of your choosing</li>
+    </ol>
+</section>
+
+<section class="section-padding">
+    <h3>Import/Export Attributes</h3>
+    <p class="mb-4">You can save and load your attribute configurations using files for convenience:</p>
+
+    <h3>Supported Input File Types</h3>
+    <ul class="list-disc">
+        <li><strong>JSON</strong> - JavaScript Object Notation files (.json)</li>
+        <li><strong>CSV</strong> - Comma Separated Values files (.csv)</li>
+        <li><strong>XLSX</strong> - Excel Workbook files (.xlsx)</li>
+    </ul>
+
+    <h3>File Format Requirements</h3>
+    <div class="format-section">
+        <h4>CSV Format</h4>
+        <p>Each line should contain: AttributeName, Type, Value1, Value2, ...</p>
+        <div class="mockup-code text-sm bg-base-200 shadow p-4 mt-2 mb-4">
+            <pre>Name,Text,John,Jane,Bob</pre>
+            <pre>Age,Numeric,25,30,35</pre>
+            <pre>Active,Boolean,true,false</pre>
+        </div>
+
+        <h4>XLSX Format</h4>
+        <div class="mockup-code text-sm bg-base-200 shadow p-4 mt-2 mb-4">
+            <pre>First row: Attribute names</pre>
+            <pre>Second row: Types (optional - defaults to Text)</pre>
+            <pre>Following rows: Values</pre>
+        </div>
+
+        <h4>JSON Format</h4>
+        <p>JSON is the Default Import/Export File format</p>
+        <div class="mockup-code text-sm bg-base-200 shadow p-4 mt-2">
+            <pre>[</pre>
+            <pre class="pl-3">&#123;</pre>
+            <pre class="pl-8">"attrName": "Name",</pre>
+            <pre class="pl-8">"type": "Text",</pre>
+            <pre class="pl-8">"values": ["John", "Jane", "Bob"]</pre>
+            <pre class="pl-3">&#125;</pre>
+            <pre>]</pre>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding">
+    <h3>Supported Attribute Types</h3>
+    <ul class="list-disc">
+        <li><strong>Text</strong> - Any string value</li>
+        <li><strong>Boolean</strong> - true/false values</li>
+        <li><strong>Bit</strong> - 0 or 1 values</li>
+        <li><strong>Numeric</strong> - Any number value</li>
+        <li><strong>Integer Range</strong> - Generates numbers within specified range</li>
+        <li><strong>Float Range</strong> - Generates decimal numbers within specified range</li>
+        <li><strong>Date Range</strong> - Generates dates within specified range</li>
+    </ul>
+
+    <h3>Generation Options</h3>
+    <ul class="list-disc">
+        <li><strong>Output Count</strong> - Number of mock records to generate</li>
+        <li><strong>Output Name</strong> - The name of the generated file</li>
+        <li><strong>SQL Table Name</strong> - The name of the SQL Table your want to insert data</li>
+        <li><strong>Enable ID</strong> - Adds an auto-incrementing ID field</li>
+        <li><strong>Probability Function</strong>:
+            <ul>
+                <li><em>Flat</em> - Equal probability for all values</li>
+                <li><em>Linear</em> - Higher probability for earlier values</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h3>Tips</h3>
+    <ul class="list-disc">
+        <li>Ensure all required columns have values</li>
+        <li>For range types, provide minimum and maximum values</li>
+        <li>Use appropriate data types for better mock data generation</li>
+        <li>Review the generated preview before final export</li>
+    </ul>
+</section>

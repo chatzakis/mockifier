@@ -6,8 +6,9 @@ import { FileInputComponent } from "../../shared/file-input/file-input.component
 
 import { generateRandomObjects } from '../../utilities/randomizers';
 import { exportJson, exportParameters, exportSQL } from '../../utilities/file-export';
-import { AttributeItem, CreateSettings, FileExtensions } from '../../models/models';
 import { filterItems } from '../../utilities/filterItems';
+
+import { AttributeItem, CreateSettings, FileExtensions } from '../../models/models';
 
 @Component({
   selector: 'app-main-form',
