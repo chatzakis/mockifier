@@ -6,7 +6,7 @@ import { FileInputComponent } from "../../shared/file-input/file-input.component
 
 import { generateRandomObjects } from '../../utilities/randomizers';
 import { exportJson, exportParameters, exportSQL } from '../../utilities/file-export';
-import { AttributeItem, CreateSettings } from '../../models/models';
+import { AttributeItem, CreateSettings, FileExtensions } from '../../models/models';
 import { filterItems } from '../../utilities/filterItems';
 
 @Component({
@@ -21,6 +21,8 @@ export class MainFormComponent {
   itemNum = Array(this.maxItems);
   filename = 'mockified';
   tableName = 'myTable'
+
+  fileExtensions = FileExtensions;
 
   loading = false;
 
@@ -56,7 +58,6 @@ export class MainFormComponent {
   }
 
   onSelectChange(i:number){
-    console.log(i);
     switch(this.items[i].type){
       case 'Boolean':
         this.items[i].valueStr = 'true, false';
@@ -113,6 +114,14 @@ export class MainFormComponent {
 
   onExportJSON(){
     exportJson(this.output, this.filename);  
+  }
+  //#endregion
+
+  //#region File error
+  fileError: { message: string } | null = null;;
+
+  onFileError(error: { message: string }){
+    this.fileError = error;
   }
   //#endregion
 }

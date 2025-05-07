@@ -9,6 +9,8 @@ import { Component, Input } from '@angular/core';
 export class PreviewerComponent {
   @Input({required: true}) mockData:any[];
 
+  mockDataShow: any[];
+
   objectKeys(obj: Record<string, any>): string[] {
     return Object.keys(obj);
   }

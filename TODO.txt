@@ -1,16 +1,9 @@
-1. Να δέχεται και άλλες μορφές αρχείων
-- CSV, Excel
+1. More probability functions
 
-2. Randomize probability functions
+2. Preview Loading Fix
 
-3. Preview Loading
+3. Copy Preview Icon Button
 
-4. Preview Handle Large Data -> Κόψε μετά τα 1000 και βάλε τελίτσες ...
+4. Instructions
 
-5. Data types
-
-6. DATE Range
-
-7. Copy Preview Icon Button
-
-8. ReadMe
+5. ReadMe

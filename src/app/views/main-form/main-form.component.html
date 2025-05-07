@@ -34,6 +34,7 @@
                                     <option value="Numeric">Numeric</option>
                                     <option value="Integer Range">Integer Range</option>
                                     <option value="Float Range">Float Range</option>
+                                    <option value="Date Range">Date Range</option>
                                   </select>
                         </td>
                     </tr>
@@ -43,8 +44,19 @@
     </table>
 
     <h3 class="text-center my-2">Import from File</h3>
-    <div class="flex justify-center mt-3">
-        <app-file-input (fileData)="onFileUpload($event)"/>
+    <div class="flex items-center flex-col mt-3">
+        <app-file-input (fileData)="onFileUpload($event)" (fileError)="onFileError($event)"/>
+        <p class="text-sm my-1">
+            <em>Supported types: 
+            @for (item of fileExtensions; track item; let last = $last) {
+                {{item}}
+                @if(!last){,&nbsp;}
+            }
+            </em>
+        </p>
+        @if(fileError){
+            <div class="text-error text-center my-2"><em>{{ fileError.message }}</em></div>
+        }
     </div>
 </section>
 

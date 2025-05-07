@@ -3,7 +3,6 @@ import { filterItems } from "./filterItems";
 
 export function generateRandomObjects(attrArray: AttributeItem[], settings: CreateSettings){
       var filteredItems = filterItems(attrArray);
-      console.log(filteredItems);
       
       seperateValues(filteredItems);
 
@@ -34,7 +33,6 @@ export function generateRandomObjects(attrArray: AttributeItem[], settings: Crea
 
         results.push(obj);
     }
-    console.log(results);
     
   return results
 }
@@ -56,6 +54,9 @@ function formatNumeric(attr: AttributeItem, value: any){
 }
 
 function formatRange(attr: AttributeItem){
+  if(attr.type == 'Date Range')
+    return dateRange(attr)
+
   if (invalidRangeInput(attr))
     return 'ERROR: Insert exactly 2 numeric values (min, max)'
 
@@ -77,6 +78,37 @@ function invalidRangeInput(attr: AttributeItem): boolean {
     typeof +attr.values[0] !== "number" ||
     typeof +attr.values[1] !== "number"
   );
+}
+
+function dateRange(attr: AttributeItem){
+  if (!(attr.values && attr.values.length == 2 && attr.values[0] !== null && attr.values[1] !== null)) {
+    return "Add a start and finish date. Use 'yyyy-MM-dd' format.";
+  }
+
+  const start = new Date(attr.values[0]);
+  const end = new Date(attr.values[1]);
+
+  // Ensure valid dates
+  if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+    return "Invalid date format. Use 'yyyy-MM-dd'.";
+  }
+
+  const startTime = start.getTime();
+  const endTime = end.getTime();
+
+  if (endTime < startTime) {
+    return "End date must be after start date.";
+  }
+
+  const randomTime = startTime + Math.random() * (endTime - startTime);
+  const randomDate = new Date(randomTime);
+
+  // Format the result as 'yyyy-MM-dd'
+  const yyyy = randomDate.getFullYear();
+  const mm = String(randomDate.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+  const dd = String(randomDate.getDate()).padStart(2, '0');
+
+  return `${yyyy}-${mm}-${dd}`;
 }
 
 //#region Random Functions
