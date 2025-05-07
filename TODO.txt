@@ -4,6 +4,6 @@
 
 3. Copy Preview Icon Button
 
-4. Instructions
+4. ReadMe
 
-5. ReadMe
+5. Responsive
