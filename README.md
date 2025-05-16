@@ -2,6 +2,8 @@
 
 A powerful mock data generation tool built with Angular. Mockifier helps you create realistic test data by defining attributes and their possible values.
 
+### Visit: [mockifier.web.app](https://mockifier.web.app/)
+
 ## Features
 
 - Create mock data attributes with multiple data types

@@ -1,0 +1,35 @@
+<section class="section-padding">
+    <h3 class="text-center my-2">Import from File</h3>
+    <div class="flex items-center flex-col mt-3">
+        <app-file-input mode="excel" (excelData)="onFileUpload($event)" (fileError)="onFileError($event)"/>
+        <p class="text-sm my-1">
+            <em>Supported types: .xlsx</em>
+        </p>
+        @if(fileError){
+            <div class="text-error text-center my-2"><em>{{ fileError.message }}</em></div>
+        }
+    </div>
+</section>
+<section class="section-padding">
+    <h3 class="text-center my-2">Excel Data</h3>
+    <div class="overflow-x-auto">
+        <table class="table table-xs">
+            <thead>
+                <tr>
+                    @for (col of excelData.colNames; track col){
+                        <th>{{ col }}</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @for(row of excelData.valueRows; track row){
+                    <tr>
+                        @for(cell of row; track cell){
+                            <td>{{ cell }}</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>    
+    </div>
+</section>

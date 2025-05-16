@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { AttributeItem, FileExtension, InputType, isValidInputType } from '../../models/models';
-import { getFileExtension, parseJson, parseCSV, parseXLSX } from '../../utilities/file-parsers';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AttributeItem, ExcelData, FileExtension, InputType, isValidInputType } from '../../models/models';
+import { getFileExtension, parseJson, parseCSV, parseXLSX, parseXLSXforTable } from '../../utilities/file-parsers';
 
 @Component({
   selector: 'app-file-input',
@@ -9,7 +9,10 @@ import { getFileExtension, parseJson, parseCSV, parseXLSX } from '../../utilitie
   styleUrl: './file-input.component.scss',
 })
 export class FileInputComponent {
-  @Output() fileData = new EventEmitter<AttributeItem[]>();
+  @Input() mode: 'all' | 'excel' = 'all';
+
+  @Output() fileData = new EventEmitter<AttributeItem[] | ExcelData>();
+  @Output() excelData = new EventEmitter<ExcelData>();
   @Output() fileError = new EventEmitter<{ message: string }>();
 
   //#region File Listener
@@ -22,28 +25,40 @@ export class FileInputComponent {
   
       const reader = new FileReader();
       var result: AttributeItem[];
+      var excelResult: ExcelData
   
       reader.onload = () => {
         try {
-          switch (getFileExtension(file)) {
-            case 'json':
-              result = parseJson(reader);
-              break;
-            case 'csv':
-              result = parseCSV(reader);
-              break;
-            case 'xlsx':
-              result = parseXLSX(reader);
-              break;
-            default:
-              throw new TypeError('Unsupported file extension');
+          if (this.mode == 'excel'){
+            excelResult = parseXLSXforTable(reader);
+          }else{
+            switch (getFileExtension(file)) {
+              case 'json':
+                result = parseJson(reader);
+                break;
+              case 'csv':
+                result = parseCSV(reader);
+                break;
+              case 'xlsx':
+                result = parseXLSX(reader);
+                break;
+              default:
+                throw new TypeError('Unsupported file extension');
+            }
           }
   
-          if (!result || result.length === 0) {
+          if (this.mode == 'all' && (!result || result.length === 0)) {
             throw new Error('No valid data found in file');
           }
-  
-          this.fileData.emit(result);
+
+          if (this.mode == 'excel' && !excelResult) {
+            throw new Error('No valid data found in file');
+          }
+          
+          if (this.mode === 'all')
+            this.fileData.emit(result);
+          else
+            this.excelData.emit(excelResult);
         } catch (error) {
           this.handleError(error);
         }

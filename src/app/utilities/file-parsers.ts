@@ -1,4 +1,4 @@
-import { AttributeItem, isValidInputType, InputType } from '../models/models';
+import { AttributeItem, isValidInputType, InputType, ExcelData } from '../models/models';
 import * as XLSX from 'xlsx';
 
 export function getFileExtension(file: File): string {
@@ -88,4 +88,23 @@ function checkTypeRow(row: any[]):boolean{
     
     const validTypes = row.filter(value => isValidInputType(value)).length;
     return validTypes >= Math.ceil(row.length / 2);
+}
+
+//#region XLSX to SQL
+export function parseXLSXforTable(reader: FileReader): ExcelData {
+  const data = new Uint8Array(reader.result as ArrayBuffer);
+  const workbook = XLSX.read(data, { type: 'array' });
+  const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+  const jsonData = XLSX.utils.sheet_to_json(worksheet, {
+    header: 1,
+  }) as string[][];
+
+  if (jsonData.length < 1) {
+    throw new Error('XLSX file must contain at least 1 row (attributes)');
+  }
+
+  return {
+      colNames: jsonData[0],
+      valueRows: jsonData.slice(1)
+  };
 }
