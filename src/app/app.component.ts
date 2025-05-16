@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 
 import { MainFormComponent } from "./views/main-form/main-form.component";
 import { NavbarComponent } from "./layout/navbar/navbar.component";
+import { SEOService } from './services/seo.service';
 
 @Component({
   selector: 'app-root',
@@ -12,4 +13,8 @@ import { NavbarComponent } from "./layout/navbar/navbar.component";
 })
 export class AppComponent {
   title = 'mockifier';
+
+  constructor(private seo: SEOService){
+    this.seo.setSEOData({})
+  }
 }
