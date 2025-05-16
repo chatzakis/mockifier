@@ -63,7 +63,7 @@
 <section class="section-padding">
     <h2 class="text-center text-lg mb-4">Options</h2>
 
-    <div class="grid grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <label class="input w-[100%]">
             <span class="label">Output Counter</span>
             <input 
@@ -108,24 +108,24 @@
     </div>
 
     
-    <div class="text-center mt-6">
-        <button class="btn btn-primary mr-1" (click)="onSubmit()" [disabled]="formInvalid()">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 text-center mt-6">
+        <button class="btn btn-primary mr-1 mb-1" (click)="onSubmit()" [disabled]="formInvalid()">
             <span class="material-icons">visibility</span>
             Preview
         </button>
-        <button class="btn btn-soft mr-1" (click)="onExportParameters()" [disabled]="formInvalid()">
+        <button class="btn btn-soft mr-1 mb-1" (click)="onExportParameters()" [disabled]="formInvalid()">
             <span class="material-icons">settings</span>
             Export Parameters
         </button>
-        <button class="btn btn-soft mr-1" (click)="onExportJSON()" [disabled]="output.length < 1">
+        <button class="btn btn-soft mr-1 mb-1" (click)="onExportJSON()" [disabled]="output.length < 1">
             <span class="material-icons">data_object</span>
             Export JSON
         </button>
-        <button class="btn btn-soft mr-1" (click)="onExportSQL()" [disabled]="output.length < 1">
+        <button class="btn btn-soft mr-1 mb-1" (click)="onExportSQL()" [disabled]="output.length < 1">
             <span class="material-icons">storage</span>
             Export SQL
         </button>
-        <button class="btn btn-soft btn-error" (click)="clear()">
+        <button class="btn btn-soft btn-error mr-1 mb-1" (click)="clear()">
             <span class="material-icons">delete</span>
             Clear
         </button>

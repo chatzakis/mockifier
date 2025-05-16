@@ -1,4 +1,4 @@
-import { AttributeItem } from "../models/models";
+import { AttributeItem, ExcelData } from "../models/models";
 import { filterItems } from "./filterItems";
 
 //#region JSON
@@ -59,6 +59,38 @@ function parametersToJSON(parameters: AttributeItem[]){
           .filter(Boolean), // remove empty strings
         type
       }));
+}
+//#endregion
+
+//#region Excel to SQL
+export function exportSQLfromExcel(
+  data: ExcelData,
+  tableName: string,
+  fileName: string = 'insert_queries.sql'
+) {
+  if (!data.colNames.length || !data.valueRows.length) {
+    throw new Error('Excel data must contain at least one column and one row.');
+  }
+
+  const escapeSql = (value: any): string => {
+    // Handle nulls and escape single quotes
+    const valueStr = value.toString();
+    if (valueStr.toString().toLowerCase() === 'null') return 'NULL';
+    if (typeof value == 'number') return valueStr;
+    return `'${valueStr.replace(/'/g, "''")}'`;
+  };
+
+  const columnList = data.colNames.join(', ');
+
+  const sqlStatements = data.valueRows.map(row => {
+    const escapedValues = row.map(escapeSql).join(', ');
+    return `INSERT INTO ${tableName} (${columnList}) VALUES (${escapedValues});`;
+  });
+
+  const content = sqlStatements.join('\n');
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+
+  downloadFile(blob, fileName + '.txt')
 }
 //#endregion
 

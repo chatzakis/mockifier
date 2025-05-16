@@ -11,7 +11,7 @@ import { getFileExtension, parseJson, parseCSV, parseXLSX, parseXLSXforTable } f
 export class FileInputComponent {
   @Input() mode: 'all' | 'excel' = 'all';
 
-  @Output() fileData = new EventEmitter<AttributeItem[] | ExcelData>();
+  @Output() fileData = new EventEmitter<AttributeItem[]>();
   @Output() excelData = new EventEmitter<ExcelData>();
   @Output() fileError = new EventEmitter<{ message: string }>();
 

@@ -1,35 +1,85 @@
 <section class="section-padding">
-    <h3 class="text-center my-2">Import from File</h3>
-    <div class="flex items-center flex-col mt-3">
-        <app-file-input mode="excel" (excelData)="onFileUpload($event)" (fileError)="onFileError($event)"/>
+    <h2 class="text-center my-2 text-2xl font-bold">Excel to SQL generator</h2>
+    <p class="text-center my-2">Import Data from Excel File to Generate SQL Insert Queries</p>
+    <div class="flex items-center flex-col mt-4">
+        <app-file-input mode="excel" (excelData)="onFileUpload($event)" (fileError)="onFileError($event)" class="w-[400px]"/>
         <p class="text-sm my-1">
             <em>Supported types: .xlsx</em>
         </p>
         @if(fileError){
-            <div class="text-error text-center my-2"><em>{{ fileError.message }}</em></div>
+        <div class="text-error text-center my-2"><em>{{ fileError.message }}</em></div>
         }
+    </div>
+    <div class="flex justify-center items-center my-4 text-sm">
+        <span class="material-icons mr-2">info</span>
+        <p class="italic">Enter your Table name and Edit Column names if necessary</p>
+    </div>
+
+    <div class="flex flex-col items-center">
+        <label class="input w-[400px] validator">
+            <input 
+                type="text"
+                id="outputName"
+                [(ngModel)]="filename"
+                required=""/>
+                <span class="label">File Name</span>
+            </label>  
+            <div class="validator-hint !my-1">Enter valid filename</div>
+        
+        <div class="join w-[400px]">
+            <div class="grow">
+                <label class="input validator join-item">
+                    <input type="text"
+                        class="placeholder:text-gray-400"
+                        placeholder="Table Name"
+                        [(ngModel)]="tableName"
+                        pattern="^[a-zA-Z_][a-zA-Z0-9_]*$" 
+                        required />
+                </label>
+                <div class="validator-hint hidden">Enter the SQL Table Name you want to insert to</div>
+            </div>
+            <button class="btn btn-primary join-item" 
+                (click)="initSqlExport()"
+                [disabled]="!excelData || !tableName || tableName == ''">
+                <span class="material-icons">storage</span>
+                Export
+            </button>
+        </div>
     </div>
 </section>
 <section class="section-padding">
-    <h3 class="text-center my-2">Excel Data</h3>
-    <div class="overflow-x-auto">
-        <table class="table table-xs">
+    <h3 class="text-center my-2 text-xl">Excel Data</h3>
+    @if(excelData){
+    <div class="overflow-x-auto max-h-[800px]">
+        <table class="table table-sm">
             <thead>
                 <tr>
-                    @for (col of excelData.colNames; track col){
-                        <th>{{ col }}</th>
+                    @for (col of excelData.colNames; track i; let i = $index){
+                    <th class="pb-1">
+                        <input type="text" 
+                            class="input w-full validator" 
+                            [(ngModel)]="excelData.colNames[i]"
+                            pattern="^[a-zA-Z_][a-zA-Z0-9_]*$" 
+                            required>
+                        <div class="validator-hint mt-1">Enter a valid column name</div>
+                    </th>
                     }
                 </tr>
             </thead>
             <tbody>
                 @for(row of excelData.valueRows; track row){
-                    <tr>
-                        @for(cell of row; track cell){
-                            <td>{{ cell }}</td>
-                        }
-                    </tr>
+                <tr>
+                    @for(cell of row; track cell){
+                    <td>{{ cell }}</td>
+                    }
+                </tr>
                 }
             </tbody>
-        </table>    
+        </table>
     </div>
+    }@else {
+    <div class="text-center">
+        <span class="material-icons !text-9xl text-gray-600">grid_on</span>
+    </div>
+    }
 </section>
