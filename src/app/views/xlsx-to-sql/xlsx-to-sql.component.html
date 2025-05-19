@@ -15,37 +15,43 @@
         <p class="italic">Enter your Table name and Edit Column names if necessary</p>
     </div>
 
-    <div class="flex flex-col items-center">
-        <label class="input w-[400px] validator">
-            <input 
-                type="text"
-                id="outputName"
-                [(ngModel)]="filename"
-                required=""/>
-                <span class="label">File Name</span>
-            </label>  
-            <div class="validator-hint !my-1">Enter valid filename</div>
-        
-        <div class="join w-[400px]">
-            <div class="grow">
-                <label class="input validator join-item">
-                    <input type="text"
-                        class="placeholder:text-gray-400"
-                        placeholder="Table Name"
-                        [(ngModel)]="tableName"
-                        pattern="^[a-zA-Z_][a-zA-Z0-9_]*$" 
-                        required />
+    <form #sqlExportForm="ngForm" (ngSubmit)="initSqlExport(sqlExportForm)">
+        <div class="flex flex-col items-center">
+            <label class="input w-[400px] validator">
+                <input type="text"
+                    class="placeholder:text-gray-400"
+                    placeholder="SQL Table Name"
+                    name="tableName"
+                    ngModel
+                    pattern="^[a-zA-Z_][a-zA-Z0-9_]*$" 
+                    required />
+                    <span class="label">Table Name</span>
                 </label>
-                <div class="validator-hint hidden">Enter the SQL Table Name you want to insert to</div>
+                <div class="validator-hint !my-1">Enter a valid Name for the SQL Table you want to insert to</div>
+                
+            <div class="join w-[400px]">
+                <div class="grow">
+                    <label class="input validator join-item">
+                        <input 
+                            type="text"
+                            class="placeholder:text-gray-400"
+                            id="outputName"
+                            placeholder="Filename"
+                            name="filename"
+                            ngModel
+                            required=""/>
+                    </label>
+                    <div class="validator-hint hidden">Enter a valid filename</div>
+                </div>
+                <button class="btn btn-primary join-item" 
+                    type="submit"
+                    [disabled]="!excelData || sqlExportForm.invalid">
+                    <span class="material-icons">storage</span>
+                    Export File
+                </button>
             </div>
-            <button class="btn btn-primary join-item" 
-                (click)="initSqlExport()"
-                [disabled]="!excelData || !tableName || tableName == ''">
-                <span class="material-icons">storage</span>
-                Export
-            </button>
         </div>
-    </div>
+    </form>
 </section>
 <section class="section-padding">
     <h3 class="text-center my-2 text-xl">Excel Data</h3>
